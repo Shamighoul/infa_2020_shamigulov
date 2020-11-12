@@ -8,7 +8,6 @@ pygame.init()
 
 FPS = 5
 n=2
-n1=1
 hgt = 700
 ln = 900
 screen = pygame.display.set_mode((ln, hgt))
@@ -23,13 +22,13 @@ CYAN = (0, 255, 255)
 BLACK = (0, 0, 0)
 COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
 # и массивы для множества шаров            
-x = [0 for i in range(5+n1)]
-y = [0 for i in range(5+n1)]
-r = [0 for i in range(5+n1)]
-a = [0 for i in range(5+n1)]
-color = [0 for i in range(5+n1)]
-x_change = [0 for j in range(5+n1)]
-y_change = [0 for j in range(5+n1)]
+x = [0 for i in range(5)]
+y = [0 for i in range(5)]
+r = [0 for i in range(5)]
+a = [0 for i in range(5)]
+color = [0 for i in range(5)]
+x_change = [0 for j in range(5)]
+y_change = [0 for j in range(5)]
 boss_runx = 0
 boss_runy = 0
 global boss_runx, boss_runx 
@@ -194,22 +193,25 @@ print(str(goal) + " from: " + str(ball_num))
 name = input()
 if not os.path.exists('table.txt'):
     out = open('table.txt', 'tw', encoding='utf-8')
+    out.write(name + ' ' + str(goal))
 else:
     inp = open('table.txt', 'r')
     data = inp.readlines()
     inp.close()
     out = open('table.txt', 'w' )
-n = len(data)
-for i in range(n):
-    s = list(data[i].split())
-    if(int(s[1])<=goal):
-        data[i]=('\n' + data[i])
-        data.insert(i,(name +" " + str(goal)))
-        break
-for i in range(data.count('')):
-    data.remove('')
-if n==len(data):
-    data.append('\n' + name + str(goal))
-for i in range(len(data)):
-    out.write(str(data[i]))
+    n = len(data)
+    for i in range(n):
+        s = list(data[i].split())
+        if s[0]=='':
+            continue
+        elif(int(s[1])<=goal):
+            data[i]=('\n' + data[i])
+            data.insert(i,(name +" " + str(goal)))
+            break
+    for i in range(data.count('')):
+        data.remove('')
+    if n==len(data):
+        data.append('\n' + name + str(goal))
+    for i in range(len(data)):
+        out.write(str(data[i]))
 out.close()
